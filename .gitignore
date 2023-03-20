@@ -406,3 +406,7 @@ ASALocalRun/
 
 # Vim temporary files
 *.swp
+
+# .NET Code coverage
+coverage.xml
+coveragereport/
