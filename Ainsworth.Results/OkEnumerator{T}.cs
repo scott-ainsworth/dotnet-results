@@ -3,6 +3,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Ainsworth.Results;
 
@@ -50,6 +51,7 @@ internal struct OkEnumerator<T> : IEnumerator<T>
     /// <summary>
     ///   Not applicable.
     /// </summary>
+    [ExcludeFromCodeCoverage] // Does nothing
     public void Dispose() { /* not required */ }
 
     /// <summary>

@@ -75,5 +75,17 @@ public class ResultFromTests {
         Assert.IsInstanceOfType(classErrorResult, typeof(IResult<TestClass>));
 
     }
+
+    [TestMethod]
+    public void ResultFrom_CreatesCorrectType_Lambdas() {
+
+        var lambdaResult = Result.From(() => "X");
+        var lambdaErrorResult = Result.From<string>(() => throw ex);
+        Assert.IsInstanceOfType(lambdaResult, typeof(Ok<string>));
+        Assert.IsInstanceOfType(lambdaResult, typeof(IResult<string>));
+        Assert.IsInstanceOfType(lambdaErrorResult, typeof(Error<string>));
+        Assert.IsInstanceOfType(lambdaErrorResult, typeof(IResult<string>));
+    }
+
 }
 

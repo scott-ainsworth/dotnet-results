@@ -1,6 +1,7 @@
 #nullable enable
 
 using System;
+using System.Collections;
 
 namespace Ainsworth.Results.Tests;
 
@@ -32,6 +33,13 @@ public class ErrorTTests {
         var errorResult = new Error<string>(wrappedException);
         var enumerator = errorResult.GetEnumerator();
         Assert.IsInstanceOfType(enumerator, typeof(ErrorEnumerator<string>));
+    }
+
+    [TestMethod]
+    public void IEnumeratorGetEnumerator_Throws() {
+        var errorResult = new Error<string>(wrappedException);
+        Assert.ThrowsException<NotImplementedException>(
+            () => (errorResult as IEnumerable).GetEnumerator());
     }
 
     [TestMethod]

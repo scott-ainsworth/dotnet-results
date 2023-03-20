@@ -3,6 +3,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Ainsworth.Results;
 
@@ -58,5 +59,6 @@ public readonly struct Error<T> : IResult<T>
     /// </summary>
     /// <returns>An empty enumerator (a failure has no value).</returns>
     [Obsolete("Obsolete: use strongly-typed version instead.")]
+    //[ExcludeFromCodeCoverage] // trivally verified by inspection
     IEnumerator IEnumerable.GetEnumerator() => throw new NotImplementedException();
 }
