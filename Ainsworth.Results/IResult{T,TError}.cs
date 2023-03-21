@@ -21,6 +21,24 @@ public interface IResult<T, TError> : IEnumerable<T>
     where TError : notnull {
 
     /// <summary>
+    ///   Determine if an <see cref="IResult{T, TError}"/> is a result.
+    /// </summary>
+    /// <value>
+    ///   <see langword="true"/> if this <see cref="IResult{T, TError}"/> is a result;
+    ///   <see langword="false"/> if it is an error.
+    /// </value>
+    bool IsOk { get; }
+
+    /// <summary>
+    ///   Determine if an <see cref="IResult{T, TError}"/> is an error.
+    /// </summary>
+    /// <value>
+    ///   <see langword="true"/> if this <see cref="IResult{T, TError}"/> is an error;
+    ///   <see langword="false"/> if it is a result.
+    /// </value>
+    bool IsError { get; }
+
+    /// <summary>
     /// Map an <see cref="IResult{T}"/> value using a specified selector function.
     /// </summary>
     /// <typeparam name="TResult">The type after applying <paramref name="selector"/>

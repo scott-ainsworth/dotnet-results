@@ -25,6 +25,12 @@ public readonly struct Error<T, TError> : IResult<T, TError>
     /// </remarks>
     public TError ErrorValue { get; init; }
 
+    /// <inheritdoc/>
+    public bool IsOk => false;
+
+    /// <inheritdoc/>
+    public bool IsError => true;
+
     /// <summary>
     ///   Initialize a new <see cref="Error{T}"></see> using a specified
     ///   <see cref="Exception"/>.
