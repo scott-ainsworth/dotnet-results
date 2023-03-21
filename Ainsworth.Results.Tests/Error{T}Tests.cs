@@ -43,6 +43,18 @@ public class ErrorTTests {
     }
 
     [TestMethod]
+    public void IsOk_Returns_False() {
+        var errorResult = new Error<string>(wrappedException);
+        Assert.IsFalse(errorResult.IsOk);
+    }
+
+    [TestMethod]
+    public void IsError_Returns_True() {
+        var errorResult = new Error<string>(wrappedException);
+        Assert.IsTrue(errorResult.IsError);
+    }
+
+    [TestMethod]
     public void Select_Retains_Exception() {
         var errorResult = new Error<string>(wrappedException);
         var selectResult= errorResult.Select(v => int.Parse(v));
