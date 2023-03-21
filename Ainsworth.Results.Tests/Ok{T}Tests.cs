@@ -44,6 +44,18 @@ public class OkTTests {
     }
 
     [TestMethod]
+    public void IsOk_Returns_True() {
+        var okResult = (Ok<string>)wrappedValue;
+        Assert.IsTrue(okResult.IsOk);
+    }
+
+    [TestMethod]
+    public void IsError_Returns_False() {
+        var okResult = (Ok<string>)wrappedValue;
+        Assert.IsFalse(okResult.IsError);
+    }
+
+    [TestMethod]
     public void Select_Transforms_ToNewType() {
         var okResult = new Ok<string>(wrappedValue);
         var selectResult = okResult.Select(v => int.Parse(v));

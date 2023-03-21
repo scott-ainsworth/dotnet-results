@@ -25,6 +25,12 @@ public readonly struct Ok<T, TError> : IResult<T, TError>
     /// </remarks>
     public T Value { get; init; }
 
+    /// <inheritdoc/>
+    public bool IsOk => true;
+
+    /// <inheritdoc/>
+    public bool IsError => false;
+
     /// <summary>
     /// Initialize a new <see cref="Ok{T, TError}"/>
     /// </summary>

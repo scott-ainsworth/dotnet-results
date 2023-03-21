@@ -57,6 +57,18 @@ public class ErrorTTErrorTests {
     }
 
     [TestMethod]
+    public void IsOk_Returns_False() {
+        var errorResult = new Error<string, ErrorStruct>(structError);
+        Assert.IsFalse(errorResult.IsOk);
+    }
+
+    [TestMethod]
+    public void IsError_Returns_True() {
+        var errorResult = new Error<string, ErrorStruct>(structError);
+        Assert.IsTrue(errorResult.IsError);
+    }
+
+    [TestMethod]
     public void Select_Retains_Errorn() {
         var errorResultI = new Error<string, int>(intError);
         var selectResultI = errorResultI.Select(v => int.Parse(v));
