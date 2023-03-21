@@ -16,7 +16,7 @@ public static class Result {
     /// <summary>
     ///   Create a new <see cref="IResult{T}"/> from a specifed value.
     /// </summary>
-    /// <typeparam name="T">The type of the value wrapped by the resulting
+    /// <typeparam name="T">The type of the value wrapped by the returned
     ///   <see cref="IResult{T}"/>.</typeparam>
     /// <param name="value">The value to wrap</param>
     /// <returns>A successful <see cref="IResult{T}"/> wrapping
@@ -28,7 +28,7 @@ public static class Result {
     /// <summary>
     ///   Create a new <see cref="IResult{T}"/> from a specifed value.
     /// </summary>
-    /// <typeparam name="T">The type of the value wrapped by the resulting
+    /// <typeparam name="T">The type of the value wrapped by the returned
     ///   <see cref="IResult{T}"/>.</typeparam>
     /// <param name="ex">The <see cref="Exception"/> to wrap</param>
     /// <returns>A failure <see cref="IResult{T}"/> with no value wrapping
@@ -40,7 +40,7 @@ public static class Result {
     /// <summary>
     ///   Create a new <see cref="IResult{T}"/> from a specifed value.
     /// </summary>
-    /// <typeparam name="T">The type of the value wrapped by the resulting
+    /// <typeparam name="T">The type of the value wrapped by the returned
     ///   <see cref="IResult{T}"/>.</typeparam>
     /// <param name="value">The value to wrap</param>
     /// <returns>A successful <see cref="IResult{T}"/> wrapping
@@ -55,7 +55,7 @@ public static class Result {
     /// <summary>
     ///   Create a new <see cref="IResult{T}"/> from a specifed value.
     /// </summary>
-    /// <typeparam name="T">The type of the value wrapped by the resulting
+    /// <typeparam name="T">The type of the value wrapped by the returned
     ///   <see cref="IResult{T}"/>.</typeparam>
     /// <param name="ex">The <see cref="Exception"/> to wrap</param>
     /// <returns>A failure <see cref="IResult{T}"/> with no value wrapping
@@ -71,7 +71,7 @@ public static class Result {
     ///   Create a new <see cref="IResult{T}"/> from the results of executing
     ///   a specified function.
     /// </summary>
-    /// <typeparam name="T">The type of the value wrapped by the resulting
+    /// <typeparam name="T">The type of the value wrapped by the returned
     ///   <see cref="IResult{T}"/>.</typeparam>
     /// <param name="func">The function to execute.  This function will either return
     ///   a value of type <typeparamref name="T"/> or throw an exception.</param>
@@ -89,5 +89,79 @@ public static class Result {
             return ex.ToResult<T>();
         }
     }
+
+    // -----------------------------------------------------------------
+    // Conversions from value type T and Exception to IResult<T, TError>
+    // -----------------------------------------------------------------
+
+    /// <summary>
+    ///   Create a new <see cref="IResult{T, TError}"/> from a specifed value.
+    /// </summary>
+    /// <typeparam name="T">The type of the value wrapped by the returned
+    ///   <see cref="IResult{T, TError}"/>.</typeparam>
+    /// <typeparam name="TError">The type of the error value wrapped by the resulting
+    ///    <see cref="IResult{T, TError}"/>.</typeparam>
+    /// <param name="value">The value to wrap</param>
+    /// <returns>A successful <see cref="IResult{T, TError}"/> wrapping
+    ///   <paramref name="value"/>.</returns>
+    /// <seealso cref="ToResult{T, TError}(T)"/>
+    public static IResult<T, TError> From<T, TError>(T value)
+            where T : notnull
+            where TError : notnull
+        => (Ok<T, TError>)value!;
+
+    /// <summary>
+    ///   Create a new <see cref="IResult{T}"/> from a specifed value.
+    /// </summary>
+    /// <typeparam name="T">The type of the value wrapped by the returned
+    ///   <see cref="IResult{T, TError}"/>.</typeparam>
+    /// <typeparam name="TError">The type of the error value wrapped by the resulting
+    ///    <see cref="IResult{T, TError}"/>.</typeparam>
+    /// <param name="errorValue">The <typeparamref name="TError"/> to wrap</param>
+    /// <returns>A failure <see cref="IResult{T, TError}"/> with no value wrapping
+    ///   a <typeparamref name="TError"/>.</returns>
+    /// <seealso cref="ToResult{T, TError}(TError)"/>
+    public static IResult<T, TError> From<T, TError>(TError errorValue)
+            where T : notnull
+            where TError : notnull
+        => (Error<T, TError>)errorValue;
+
+    /// <summary>
+    ///   Create a new <see cref="IResult{T, TError}"/> from a specifed value.
+    /// </summary>
+    /// <typeparam name="T">The type of the value wrapped by the returned
+    ///   <see cref="IResult{T, TError}"/>.</typeparam>
+    /// <typeparam name="TError">The type of the error value wrapped by the resulting
+    ///    <see cref="IResult{T, TError}"/>.</typeparam>
+    /// <param name="value">The value to wrap</param>
+    /// <returns>A successful <see cref="IResult{T, TError}"/> wrapping
+    ///   <paramref name="value"/>.</returns>
+    /// <seealso cref="From{T, TError}(T)"/>
+    /// <remarks>
+    ///   This is simply the functional form of <see cref="From{T, TError}(T)"/>.
+    /// </remarks>
+    public static IResult<T, TError> ToResult<T, TError>(this T value)
+            where T : notnull
+            where TError : notnull
+        => (Ok<T, TError>)value!;
+
+    /// <summary>
+    ///   Create a new <see cref="IResult{T, TError}"/> from a specifed value.
+    /// </summary>
+    /// <typeparam name="T">The type of the value wrapped by the returned
+    ///   <see cref="IResult{T, TError}"/>.</typeparam>
+    /// <typeparam name="TError">The type of the error value wrapped by the resulting
+    ///    <see cref="IResult{T, TError}"/>.</typeparam>
+    /// <param name="errorValue">The <typeparamref name="TError"/> to wrap</param>
+    /// <returns>A failure <see cref="IResult{T, TError}"/> with no value wrapping
+    ///   <paramref name="errorValue"/>.</returns>
+    /// <seealso cref="From{T, TError}(TError)"/>
+    /// <remarks>
+    ///   This is simply the functional form of <see cref="From{T, TError}(TError)"/>.
+    /// </remarks>
+    public static IResult<T, TError> ToResult<T, TError>(this TError errorValue)
+            where T : notnull
+            where TError : notnull
+        => (Error<T, TError>)errorValue;
 
 }

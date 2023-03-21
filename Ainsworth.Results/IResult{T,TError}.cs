@@ -10,12 +10,15 @@ namespace Ainsworth.Results;
 /// A monad for sane error handling.
 /// </summary>
 /// <typeparam name="T">The type of the value wrapped by <see cref="IResult{T}"/>.</typeparam>
+/// <typeparam name="TError">The type of the error value wrapped by
+///    <see cref="IResult{T}"/>.</typeparam>
 /// <remarks>
 ///   This interface and its implementations are modeled after F#'s Result type.
 /// </remarks>
 /// <seealso href="https://learn.microsoft.com/en-us/dotnet/fsharp/language-reference/results"/>
-public interface IResult<T> : IEnumerable<T>
-    where T : notnull {
+public interface IResult<T, TError> : IEnumerable<T>
+    where T : notnull
+    where TError : notnull {
 
     /// <summary>
     /// Map an <see cref="IResult{T}"/> value using a specified selector function.
@@ -29,7 +32,7 @@ public interface IResult<T> : IEnumerable<T>
     ///   This method is commonly called <i>bind</i> or <i>map</i> in other programming
     ///   languages and theoretical discussions about monads and functional programming.
     /// </remarks>
-    IResult<TResult> Select<TResult>(Func<T, TResult> selector)
+    IResult<TResult, TError> Select<TResult>(Func<T, TResult> selector)
            where TResult : notnull;
 
 }

@@ -10,8 +10,11 @@ namespace Ainsworth.Results;
 ///   An implementation of <see cref="IResult{T}"/> indicating success.
 /// </summary>
 /// <typeparam name="T">The type of the value wrapped by <see cref="IResult{T}"/>.</typeparam>
-public readonly struct Ok<T> : IResult<T>
-    where T : notnull {
+/// <typeparam name="TError">The type of the error value wrapped by
+///    <see cref="IResult{T}"/>.</typeparam>
+public readonly struct Ok<T, TError> : IResult<T, TError>
+    where T : notnull
+    where TError: notnull {
 
     /// <summary>
     ///   Return the success value.
@@ -23,7 +26,7 @@ public readonly struct Ok<T> : IResult<T>
     public T Value { get; init; }
 
     /// <summary>
-    /// Initialize a new <see cref="Ok{T}"/>
+    /// Initialize a new <see cref="Ok{T, TError}"/>
     /// </summary>
     /// <param name="value"></param>
     internal Ok(T value) {
@@ -31,31 +34,31 @@ public readonly struct Ok<T> : IResult<T>
     }
 
     /// <summary>
-    /// Cast operator to convert a <typeparamref name="T"/> to an <see cref="Ok{T}"/>.
+    /// Cast operator to convert a <typeparamref name="T"/> to an <see cref="Ok{T, TError}"/>.
     /// </summary>
     /// <param name="value">The value to cast.</param>
-    public static implicit operator Ok<T>(T value) => new(value);
+    public static implicit operator Ok<T, TError>(T value) => new(value);
 
     /// <summary>
-    ///   Map the <see cref="IResult{T}"/> value using a specified selector function.
+    ///   Map the <see cref="IResult{T, TError}"/> value using a specified selector function.
     /// </summary>
     /// <typeparam name="TResult">The type after applying <paramref name="selector"/>
     ///   to the value.</typeparam>
     /// <param name="selector">A transform function to apply to the value.</param>
-    /// <returns>A new <see cref="IResult{T}"/> containing the results of applying
+    /// <returns>A new <see cref="IResult{T, TError}"/> containing the results of applying
     ///   <paramref name="selector"/>.</returns>
     /// <remarks>
     ///   This method is commonly called <i>bind</i> or <i>map</i> in theoretical
     ///   discussions of monads and functional programming.
     /// </remarks>
-    public IResult<TResult>
+    public IResult<TResult, TError>
         Select<TResult>(Func<T, TResult> selector)
             where TResult: notnull
-        => selector(Value).ToResult<TResult>();
+        => selector(Value).ToResult<TResult, TError>();
 
     /// <summary>
     ///   Returns an enumerator that iterates through a collection comprising
-    ///   the single <see cref="IResult{T}"/> value.
+    ///   the single <see cref="IResult{T, TError}"/> value.
     /// </summary>
     /// <returns>An enumerator that can be used to iterate through a collection
     ///   consisting of <see cref="Value"/>.</returns>
@@ -63,7 +66,7 @@ public readonly struct Ok<T> : IResult<T>
 
     /// <summary>
     ///   Returns an enumerator that iterates through a collection comprising
-    ///   the single <see cref="IResult{T}"/> value.
+    ///   the single <see cref="IResult{T, TError}"/> value.
     /// </summary>
     /// <returns>An enumerator that can be used to iterate through a collection
     ///   consisting of <see cref="Value"/>.</returns>

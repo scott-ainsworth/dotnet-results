@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 namespace Ainsworth.Results.Tests;
 
 [TestClass]
-public class ResultFromTests {
+public class ResultFromTTests {
 
     record struct TestStruct(int i, string s);
     record class TestClass(int i, string s);
